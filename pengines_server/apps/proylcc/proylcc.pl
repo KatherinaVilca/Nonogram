@@ -62,9 +62,9 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 	%Llamar a predicado cant_celdas_pintadas, de ahi sacar la cantidad que estan pintadas
 	%Si cantidad de celdas pintadas es mayor a la cantidad de pistas de la fila return false. Pintar como invalida. Restar una vida.
 
-	verificar_consecutivos(0,[Elem|FilaRestante],FilaRestante):- X\== "#".
+	verificar_consecutivos(0,[Elem|FilaRestante],FilaRestante):- Elem\== "#".
 	verficar_consecutivos(N,[Elem,FilaRestante],Aux):-
-    X== "#",
+    Elem== "#",
     N>0,
     Naux is N-1,
     verificar_consecutivos(Naux,FilaRestante,Aux).
