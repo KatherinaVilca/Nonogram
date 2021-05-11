@@ -69,12 +69,44 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
     Naux is N-1,
     verificar_consecutivos(Naux,FilaRestante,Aux).
 
-	insertar_elem(A,[A]).
+	% obtener_lista(+Posicion,+ListaConListas, -Sublista)
 
-	obtener_lista_pistas(Pos,ListaPistas,Lista):-
-    obtener_lista(0,Pos,ListaPistas,Lista).
+		obtener_lista(Pos,ListaPistas,Lista):-
+    		obtener_lista_recursiva(0,Pos,ListaPistas,Lista).
+
+	
+			obtener_lista_recursiva(X,Pos,[Elem|LPs],Lista):-
+    			( X\=Pos)-> Xs is X+1, obtener_lista_recursiva(Xs,Pos,LPs,Lista)
+   				; lista = Elem.
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-	obtener_lista(X,Pos,[Elem|LPs],Lista):-
-    ( X\=Pos)-> Xs is X+1, obtener_lista(Xs,Pos,LPs,Lista)
-    ; insertar_elem(Elem,Lista).
+	% obtener_columna(+TableroGrilla,+Columna,+ListaDeElementosDeLaColumna)
+	
+		obtener_columna(Grilla, Col, ListaElementosColumna):-
+    		obtener_columna_recursiva(Grilla,Col, ListaAux),
+    		invertir(ListaAux,ListaElementosColumna).
+
+			obtener_columna_recursiva([Fila], Col,FilaC):- %Caso base, unica fila.
+   				obtener_lista(Col,Fila,AuxC), 			   %FilaC es una lista con el elem que busco.
+    			FilaC= [AuxC].
+
+			obtener_columna_recursiva([Fila|Grilla], Col, FilaC):-
+    			obtener_columna_recursiva(Grilla,Col,FilaRecursiva),
+    			obtener_lista(Col,Fila,Aux),
+    			insertar_final(Aux,FilaRecursiva,FilaC).
+			
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %% PREDICADOS AUXILIARES.
+	
+	invertir([],[]). % Caso base, lista vacia.
+	
+	invertir([X|Xs],Res):- % X elemento de la lista, Xs resto de la lista
+		invertir(Xs,Aux), %aux lista , Caso recursivo
+		insertar_final(X,Aux,Res). % X el ultimo elem leido
+
+	insertar_final(A,[], [A]). %caso base, si la primeralista esta vacia, inserto el elem en la segunda.
+		insertar_final(A,[Elem|Listarestante],[Elem|Listaresultado]):-
+    	insertar_final(A,Listarestante,Listaresultado).
