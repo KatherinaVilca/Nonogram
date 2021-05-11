@@ -24,3 +24,10 @@ init(
     %                             si no -> marcar esa posicion con "#"
     %                                      si marcamos y cumplimos todas las pistas -> marcar las blancas que queden (si quedan) con "X" y actualizar label de pistas de color verde
     %                             retornar grilla actualizada
+
+
+    % como verificar (dada la posicion) -> Primero: para cada pista (Fila, columna)  -> verificar que tengo espacio suficiente para satisfacer todas (esto es, si tengo como pista en la fila F 4 tengo que poder insertar 3 consecutivos).                         
+    %                                         si columna no verifica -> marco columna como inválida (solo encabezado de pista, no casilla especifica).
+    %                                           si no
+    %                                             si fila no verifica -> marco fila como invalida (pintando el encabezado de la fila, no casilla especifica).
+    %                                     si verifico, entonces pinto la celda (podría ser una posicion valida).       
