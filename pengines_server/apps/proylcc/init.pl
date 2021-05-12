@@ -6,7 +6,7 @@ init(
 
 [[2], [5], [1,3], [5], [4]], 	% PistasColumnas
 
-[["X", _ , _ , _ , _ ], 		
+[["X", _ , _ , _ , # ], 		
  ["X", _ ,"X", _ , _ ],
  ["X", _ , _ , _ , _ ],		% Grilla
  ["#","#","#", _ , _ ],
@@ -30,4 +30,28 @@ init(
     %                                         si columna no verifica -> marco columna como inválida (solo encabezado de pista, no casilla especifica).
     %                                           si no
     %                                             si fila no verifica -> marco fila como invalida (pintando el encabezado de la fila, no casilla especifica).
-    %                                     si verifico, entonces pinto la celda (podría ser una posicion valida).       
+    %                                     si verifico, entonces pinto la celda (podría ser una posicion valida).  
+
+    %contador es cantidad de pistas en fila o columna
+    % Leo la lista, si la posicion es "_" ó "#" contador--. Si contador == 0, cumple  .
+
+    %verificar:
+    % Tengo lista de pistas y lista fila de grilla.
+    % Tomar la primera pista.
+    % Si el primer lugar de lista fila de grilla es # o _ 
+    %       llamar a verificar consecutivos con el primer elemento de la lista de pistas, y con la lista de fila de grilla.
+    %               verificar consecutivos ( NroPista, [E|FilaS], Fila restante)
+                        Tomo el primer elemento de fila y si es igual a # o _ ,
+                        Naux NroPista - 1,
+                        volver a llamar a verificar consecutivos con Naux, FilaS, Fila restante).
+                    
+                    Si NroPista es 0, Elemento de la FilaS es "X" , Retornar fila restante.
+
+            % tomar siguiente de la lista de pistas y fila restante. Repetir lo anterior.
+
+    % Si no, si es X, llamar a verificar con la lista fila de grilla sin ese elemento.
+
+    % lista de pistas es vacia y fila grilla es vacia entonces retornar 1 (Se cumple).
+    % Sino retornar 0.
+
+
