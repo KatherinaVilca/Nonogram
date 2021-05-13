@@ -44,34 +44,54 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 	replace(_Cell, ColN, Contenido, Row, NewRow)).
 
 
-	%Verificar si se trata de una jugada valida si no se excedio el numero de pistas
-	%Si intento agregar un "#" en una fila/columna que ya está completa 
-	% (pueden quedar espacios blancos pero las pistas ya estan satisfechas) 
-	% debería quitar una vida y poner una cruz en el espacio blanco donde se intentó insertar el #
-	%Deberiamos recorrer la lista de pistas por Rown y por colN 
-	%Agregar: obtener_cant_pista_(+Posicion, + _Pistas,-Cant).
-	% Agregar: obtener_fila_grilla(+Grilla,+Posicion,-ListaFila).
-	%Agregar boton verificar.
-	%Agregar boton modo de juego( x o #).
-	%Agregar predicado a donde de forma recursiva va contando la cantidad de celdas pintadas.
-	% cant_celdas_pintadas(_ListaFila,+CantPistas,-CantPintadas)
+	% ---------- COMPLETAR -----------
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	verificar(Posicion,ListaPistasFilas,ListaPistasColumna,Grilla):-
+    	obtener_lista([PosX|_Posicion],ListaPistasFilas,PistasFila), %obtengo lista de pistas de la fila PosX
+    	nth0(1,Posicion,PosY),  									%Obtengo PosY
+    	obtener_fila(Y,ListaPistasColumna,PistasColumna),			%Obtengo pistas de la columna.
+    	obtener_fila(PosX,Grilla,ListaFila), 						%Obtengo la fila de la grilla.
+    	obtener_columna(PosY,Grilla,ListaColumna),					%Obtengo la columna de la grilla
+    	verificar_lista(PistasFila,ListaFila,1),                %%VER . DEBERIA MANDAR UNA VARIABLE.    FILA
+		verificar_lista(PistasColumna,ListaColumna,1).													COLUMNA
 
 
-	verificar_fila(Contenido,Rown,-ListaFila,-Cant,-Flag):-  %Flag= true o false.
-	Contenido== "#" %Si es una celda a pintar.
-	%Llamar a predicado cant_celdas_pintadas, de ahi sacar la cantidad que estan pintadas
-	%Si cantidad de celdas pintadas es mayor a la cantidad de pistas de la fila return false. Pintar como invalida. Restar una vida.
 
-	verificar_consecutivos(0,[Elem|FilaRestante],FilaRestante):- Elem\== "#".
-	verficar_consecutivos(N,[Elem,FilaRestante],Aux):-
-    Elem== "#",
-    N>0,
-    Naux is N-1,
-    verificar_consecutivos(Naux,FilaRestante,Aux).
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	verificar_lista(PistasFila,ListaFila,1):-
+   		verificarPistasEnLista(PistasFila,ListaFila).
+
+	verificar_lista(_,_,_,0).
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	verificarPistasEnLista([],ListaFila):-not(member("#",ListaFila)).
+
+	verificarPistasEnLista([X|PistasS],[Y|ListaFilaS]):-Y == "#", 
+    	verificarPconsecutivos(X,[Y|ListaFilaS],Restante),
+    	verificarPistasEnLista(PistasS,Restante).
+
+	verificarPistasEnLista(Pistas,[Y|ListaFilaS]):- Y \== "#", % Aca empieza
+  		verificarPistasEnLista(Pistas,ListaFilaS).
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	verificarPconsecutivos(0,[],[]).
+	
+	verificarPconsecutivos(0,[X|Filarestante],Filarestante):- X \== "#".
+	
+	verificarPconsecutivos(N,[X|Filarestante],Filarestante2):- X == "#", N > 0, Naux is N-1,
+    	verificarPconsecutivos(Naux,Filarestante,Filarestante2).
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	% obtener_lista(+Posicion,+ListaConListas, -Sublista)
 
-		obtener_lista(Pos,ListaPistas,Lista):-
+		obtener_fila(Pos,ListaPistas,Lista):-
     		obtener_lista_recursiva(0,Pos,ListaPistas,Lista).
 
 	
@@ -89,12 +109,12 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
     		invertir(ListaAux,ListaElementosColumna).
 
 			obtener_columna_recursiva([Fila], Col,FilaC):- %Caso base, unica fila.
-   				obtener_lista(Col,Fila,AuxC), 			   %FilaC es una lista con el elem que busco.
+   				obtener_fila(Col,Fila,AuxC), 			   %FilaC es una lista con el elem que busco.
     			FilaC= [AuxC].
 
 			obtener_columna_recursiva([Fila|Grilla], Col, FilaC):-
     			obtener_columna_recursiva(Grilla,Col,FilaRecursiva),
-    			obtener_lista(Col,Fila,Aux),
+    			obtener_fila(Col,Fila,Aux),
     			insertar_final(Aux,FilaRecursiva,FilaC).
 			
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,5 +128,31 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 		insertar_final(X,Aux,Res). % X el ultimo elem leido
 
 	insertar_final(A,[], [A]). %caso base, si la primeralista esta vacia, inserto el elem en la segunda.
-		insertar_final(A,[Elem|Listarestante],[Elem|Listaresultado]):-
+		
+	insertar_final(A,[Elem|Listarestante],[Elem|Listaresultado]):-
     	insertar_final(A,Listarestante,Listaresultado).
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+
+	% ------------------- VERSION ORIGINIAL -----------------------
+
+	% verificarFila([IndiceFila|_Pos],PistasFilas,GrillaRes, 1) :- 
+    % nth0(IndiceFila,PistasFilas,FiladePistas),
+    % nth0(IndiceFila,GrillaRes,Filadegrilla),
+    % verificarPistasEnLista(FiladePistas,Filadegrilla).
+	% verificarFila(_,_,_,0).	
+
+	% verificarPistasEnLista([],FiladeGrilla):-not(member("#",FiladeGrilla)).
+
+	% verificarPistasEnLista([X|PistasRestantes],[Y|SubfiladeGrilla]):-Y == "#", 
+    % verificarPconsecutivos(X,[Y|SubfiladeGrilla],Restante),
+    % verificarPistasEnLista(PistasRestantes,Restante).
+
+	% verificarPistasEnLista(Pistas,[Y|SubfiladeGrilla]):- Y \== "#", % Aca empieza
+  	% verificarPistasEnLista(Pistas,SubfiladeGrilla).
+
+	% verificarPconsecutivos(0,[],[]).
+	% verificarPconsecutivos(0,[X|Filarestante],Filarestante):- X \== "#".
+	% verificarPconsecutivos(N,[X|Filarestante],Filarestante2):- X == "#", N > 0, Naux is N-1,
+    % verificarPconsecutivos(Naux,Filarestante,Filarestante2).
