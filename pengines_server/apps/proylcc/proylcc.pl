@@ -29,14 +29,13 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 	% (RowN-ésima fila de Grilla), por una fila nueva NewRow.
 	 
 	%Si la pos es X o vacio verifica fila y columna si y solo el contenido es #.
-	%verificar_fila()
 
 	replace(Row, RowN, NewRow, Grilla, NewGrilla),
 
 	% NewRow es el resultado de reemplazar la celda Cell en la posición ColN de Row por _,
 	% siempre y cuando Cell coincida con Contenido (Cell se instancia en la llamada al replace/5).
 	% En caso contrario (;)
-	% NewRow es el resultado de reemplazar lo que se que haya (_Cell) en la posición ColN de Row por Conenido.	 
+	% NewRow es el resultado de reemplazar lo que se que haya (_Cell) en la posición ColN de Row por Contenido.	 
 	
 	(replace(Cell, ColN, _, Row, NewRow),
 	Cell == Contenido 
@@ -48,14 +47,23 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	verificar(Posicion,ListaPistasFilas,ListaPistasColumna,Grilla):-
-    	obtener_lista([PosX|_Posicion],ListaPistasFilas,PistasFila), %obtengo lista de pistas de la fila PosX
-    	nth0(1,Posicion,PosY),  									%Obtengo PosY
-    	obtener_fila(Y,ListaPistasColumna,PistasColumna),			%Obtengo pistas de la columna.
-    	obtener_fila(PosX,Grilla,ListaFila), 						%Obtengo la fila de la grilla.
-    	obtener_columna(PosY,Grilla,ListaColumna),					%Obtengo la columna de la grilla
-    	verificar_lista(PistasFila,ListaFila,1),                %%VER . DEBERIA MANDAR UNA VARIABLE.    FILA
-		verificar_lista(PistasColumna,ListaColumna,1).													COLUMNA
+		
+		
+    	obtener_lista([PosX|_Pos],PistasFilas,PistasFila), %obtengo lista de pistas de la fila PosX
+		nth0(1,Pos,PosY),  									%Obtengo PosY
+    
+    	obtener_fila(Y,PistasColumnas,PistasColumna),			%Obtengo pistas de la columna.
+    	obtener_fila(PosX,NewGrilla,ListaFila), 						%Obtengo la fila de la grilla.
+		obtener_columna(PosY,Grilla,ListaColumna),					%Obtengo la columna de la grilla
+		NFila is 1,
+    	verificar_lista(PistasFila,ListaFila,NLista),                %%VER . DEBERIA MANDAR UNA VARIABLE.    FILA
+		NColumna is 1,
+		verificar_lista(PistasColumna,ListaColumna,NColumna),		%COLUMNA
+
+		FilaSat = NFila,
+		ColSat = NColumna.
+
+
 
 
 
