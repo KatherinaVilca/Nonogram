@@ -42,16 +42,18 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 		;
 	replace(_Cell, ColN, Contenido, Row, NewRow)).
 
-
+	%si cumplimos pistas de una fila/columna, ponemos esa fila/columna en true en lista aux. se podrá
+	% guardar una lista (en este caso 2, fila y columna) como variable global o algo asi? si no, hay que hacer
+	% el chequeo de todas las filas/columnas al final de cada put.
 	% ---------- COMPLETAR -----------
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+	
 		
 		
     	obtener_lista([PosX|_Pos],PistasFilas,PistasFila), %obtengo lista de pistas de la fila PosX
 		nth0(1,Pos,PosY),  									%Obtengo PosY
-    
+     %singleton variables en PistasFilas, ver ¿PistasColumnas==PistasFilas?
     	obtener_fila(Y,PistasColumnas,PistasColumna),			%Obtengo pistas de la columna.
     	obtener_fila(PosX,NewGrilla,ListaFila), 						%Obtengo la fila de la grilla.
 		obtener_columna(PosY,Grilla,ListaColumna),					%Obtengo la columna de la grilla
@@ -142,7 +144,15 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-
+	%todasPistasSatisfechas(+ListaPistasAux,-Num) -> ver si conviene que ListaPistaAux sea una lista auxiliar la
+	%													 cual cada vez que se satisface una fila o columna,
+	%al final del put iría este metodo, que verifica filas y columnas
+	%todasPistasSatisfechas([], Num). % retornamos true
+	%todasPistasSatisfechas([Xs|X], Num):-
+	%				Xs==true,
+	%				todasPistasSatisfechas(X,Num).
+	% Si estan satisfechas, ganó el juego.
+ 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	% ------------------- VERSION ORIGINIAL -----------------------
 
 	% verificarFila([IndiceFila|_Pos],PistasFilas,GrillaRes, 1) :- 
@@ -164,3 +174,4 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 	% verificarPconsecutivos(0,[X|Filarestante],Filarestante):- X \== "#".
 	% verificarPconsecutivos(N,[X|Filarestante],Filarestante2):- X == "#", N > 0, Naux is N-1,
     % verificarPconsecutivos(Naux,Filarestante,Filarestante2).
+

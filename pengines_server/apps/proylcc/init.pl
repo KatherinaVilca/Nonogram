@@ -53,5 +53,3 @@ init(
 
     % lista de pistas es vacia y fila grilla es vacia entonces retornar 1 (Se cumple).
     % Sino retornar 0.
-
-
