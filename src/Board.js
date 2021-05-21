@@ -7,8 +7,8 @@ class Board extends React.Component {
         const numOfRows = this.props.grid.length;
         const numOfCols = this.props.grid[0].length;
 
-        const rowClues = this.props.rowClues;
-        const colClues = this.props.colClues;
+
+        const {listaFilaSatisfecha, listaColumnaSatisfecha, rowClues, colClues} = this.props;
 
         return (
             <div className="vertical">
@@ -28,7 +28,7 @@ class Board extends React.Component {
                 >
                     <div>{/* top-left corner square */}</div>
                     {colClues.map((clue, i) =>
-                        <Clue clue={clue} key={i}/>
+                        <Clue clue={clue} key={i} satisfaction = {listaColumnaSatisfecha[i] }/>
                     )}
                 </div>
                 <div className="horizontal">
@@ -41,7 +41,7 @@ class Board extends React.Component {
                         }}
                     >
                         {rowClues.map((clue, i) =>
-                            <Clue clue={clue} key={i}/>
+                            <Clue clue={clue} key={i} satisfaction = {listaFilaSatisfecha[i]}/>
                         )}
                     </div>
                     <div className="board"

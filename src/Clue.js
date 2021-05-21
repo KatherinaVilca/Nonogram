@@ -7,7 +7,7 @@ class Clue extends React.Component {
        /* const (satisfaction,index,clue) = this.props;*/
         
         return (
-            <div className={this.props.satisfaction ===1 ? "cluepintado" : "clue"} >
+            <div className={this.props.satisfaction ? "cluepintado" : "clue"} >
                 {clue.map((num, i) =>
                     <div key={i}>
                         {num}

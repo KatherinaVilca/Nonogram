@@ -32,8 +32,8 @@ class Game extends React.Component {
           grid: response['Grilla'],
           rowClues: response['PistasFilas'],
           colClues: response['PistasColumns'],
-          listaFilaSatisfecha: response['PistasFilas'],
-          listaColumnaSatisfecha:  response['PistasFilas']
+          listaFilaSatisfecha: [...response['PistasFilas']].fill(false),
+          listaColumnaSatisfecha:  [...response['PistasColumns']].fill(false)
 
         });
       }
@@ -48,8 +48,11 @@ class Game extends React.Component {
     // Build Prolog query to make the move, which will look as follows:
     // put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
     const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_"); // Remove quotes for variables.
-    const queryS = 'put("'+ this.state.clickActual +'", [' + i + ',' + j + ']' 
-    + ', [], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+
+    const rowCluesProlog = JSON.stringify(this.state.rowClues)
+    const colCluesProlog = JSON.stringify(this.state.colClues)
+
+    const queryS = `put("${this.state.clickActual}", [${i},${j}], ${rowCluesProlog}, ${colCluesProlog},${squaresS}, GrillaRes, FilaSat, ColSat)`;
     this.setState({
       waiting: true
     });
@@ -59,6 +62,7 @@ class Game extends React.Component {
         let satisfaceC = this.state.listaColumnaSatisfecha;
         satisfaceF[i] = response['FilaSat'];
         satisfaceC[j]  = response['ColSat'];
+        console.log(queryS + " --->> " +JSON.stringify(response))
         this.setState({
           grid: response['GrillaRes'],
           listaFilaSatisfecha: satisfaceF,
@@ -95,6 +99,8 @@ class Game extends React.Component {
           grid={this.state.grid}
           rowClues={this.state.rowClues}
           colClues={this.state.colClues}
+          listaFilaSatisfecha = {this.state.listaFilaSatisfecha}
+          listaColumnaSatisfecha = {this.state.listaColumnaSatisfecha}
           onClick={(i, j) => this.handleClick(i,j)}
         />
         <div className="gameInfo">
