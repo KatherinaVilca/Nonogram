@@ -1,6 +1,7 @@
 import React from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
+import ModoOnClick from './ModoOnClick';
 
 class Game extends React.Component {
 
@@ -12,7 +13,11 @@ class Game extends React.Component {
       grid: null,
       rowClues: null,
       colClues: null,
+      listaFilaSatisfecha: [],
+      listaColumnaSatisfecha:[],
+      clickActual:"#",
       waiting: false
+      
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
@@ -27,6 +32,9 @@ class Game extends React.Component {
           grid: response['Grilla'],
           rowClues: response['PistasFilas'],
           colClues: response['PistasColumns'],
+          listaFilaSatisfecha: response['PistasFilas'],
+          listaColumnaSatisfecha:  response['PistasFilas']
+
         });
       }
     });
@@ -40,15 +48,21 @@ class Game extends React.Component {
     // Build Prolog query to make the move, which will look as follows:
     // put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
     const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_"); // Remove quotes for variables.
-    const queryS = 'put("#", [' + i + ',' + j + ']' 
+    const queryS = 'put("'+ this.state.clickActual +'", [' + i + ',' + j + ']' 
     + ', [], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     this.setState({
       waiting: true
     });
     this.pengine.query(queryS, (success, response) => {
       if (success) {
+        let satisfaceF = this.state.listaFilaSatisfecha;
+        let satisfaceC = this.state.listaColumnaSatisfecha;
+        satisfaceF[i] = response['FilaSat'];
+        satisfaceC[j]  = response['ColSat'];
         this.setState({
           grid: response['GrillaRes'],
+          listaFilaSatisfecha: satisfaceF,
+          listaColumnaSatisfecha: satisfaceC,
           waiting: false
         });
       } else {
@@ -58,6 +72,17 @@ class Game extends React.Component {
       }
     });
   }
+
+    selectX(){
+      this.setState({
+        clickActual: "X"
+      });
+    }
+    selectPaint(){
+      this.setState({
+        clickActual: "#"
+      });
+    }
 
   render() {
     if (this.state.grid === null) {
@@ -75,6 +100,10 @@ class Game extends React.Component {
         <div className="gameInfo">
           {statusText}
         </div>
+        <ModoOnClick
+          selectX={()=>this.selectX()}
+          selectPaint= {()=>this.selectPaint()}
+          />
       </div>
     );
   }

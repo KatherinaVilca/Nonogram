@@ -3,8 +3,11 @@ import React from 'react';
 class Clue extends React.Component {
     render() {
         const clue = this.props.clue;
+        
+       /* const (satisfaction,index,clue) = this.props;*/
+        
         return (
-            <div className={"clue"} >
+            <div className={this.props.satisfaction ===1 ? "cluepintado" : "clue"} >
                 {clue.map((num, i) =>
                     <div key={i}>
                         {num}

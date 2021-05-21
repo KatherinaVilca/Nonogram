@@ -44,8 +44,7 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 	replace(_Cell, ColN, Contenido, Row, NewRow)),
 
 	verificarFila(RowN,PistasFilas,NewGrilla,FilaSat),
-
-        verificarColumna(ColN,PistasColumnas,NewGrilla, ColSat).
+     verificarColumna(ColN,PistasColumnas,NewGrilla, ColSat).
 
 
 	% ---------- Tener en cuenta -----------
@@ -138,7 +137,7 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 	nth0(IndiceFila,PistasFilas,FiladePistas),
 	nth0(IndiceFila,GrillaRes,Filadegrilla),
     verificarPistasEnLista(FiladePistas,Filadegrilla).
-	
+
 	verificarFila(_,_,_,0).
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
