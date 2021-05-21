@@ -173,4 +173,3 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 	% verificarPconsecutivos(0,[X|Filarestante],Filarestante):- X \== "#".
 	% verificarPconsecutivos(N,[X|Filarestante],Filarestante2):- X == "#", N > 0, Naux is N-1,
     % verificarPconsecutivos(Naux,Filarestante,Filarestante2).
-

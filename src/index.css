@@ -70,7 +70,7 @@ body {
 }
 
 .cluepintado{
-  background-color: green;
+  background-color: rgb(136, 245, 136);
   animation-name: clueAnimation;
   animation-duration: 1s;
 }
@@ -78,11 +78,9 @@ body {
    0%{
      background: white;
    }
-   50%{
-     background: tomato;
-   }
+  
    100%{
-     background: turquoise;
+     background:  rgb(136, 245, 136);
    }
 }
 

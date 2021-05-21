@@ -88,11 +88,29 @@ class Game extends React.Component {
       });
     }
 
+    terminoJuego(){
+
+      for ( let i of this.state.listaFilaSatisfecha){
+        if( i!==1 ) return true;
+      }
+
+      for (let i of this.state.listaColumnaSatisfecha){
+        if( i!== 1) return true;
+      }
+     } 
+    
+
   render() {
+
+    let statusText = "En juego";
+
     if (this.state.grid === null) {
       return null;
     }
-    const statusText = 'Keep playing!';
+  
+    if (!this.terminoJuego()){
+      statusText = "Termino el juego";
+    }
     return (
       <div className="game">
         <Board
