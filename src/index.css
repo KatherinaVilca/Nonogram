@@ -70,7 +70,20 @@ body {
 }
 
 .cluepintado{
-  background-color: black;
+  background-color: green;
+  animation-name: clueAnimation;
+  animation-duration: 1s;
+}
+@keyframes clueAnimation {
+   0%{
+     background: white;
+   }
+   50%{
+     background: tomato;
+   }
+   100%{
+     background: turquoise;
+   }
 }
 
 .gameInfo {
