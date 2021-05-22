@@ -1,4 +1,3 @@
-
 :- module(init, [ init/3 ]).
 
 init(
