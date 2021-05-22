@@ -1,11 +1,96 @@
+@import url(https://fonts.googleapis.com/css?family=Signika:700,300,600);
+
+
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 190px;
-  background: #373B44;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  margin-left: 40em;
+  display:grid;
+  align-items: top;
+  background: #373B44; 
+  background: -webkit-linear-gradient(to right, #4286f4, #373B44); 
+  background: linear-gradient(to right, #4286f4, #373B44);
+}
+
+h1 {
+  font-size:3em;
+  font:bold 4.5vw/1.6 'Signika', sans-serif;
+  user-select:none;
+
+ }
+ 
+ h1 span { display:inline-block; animation:float .2s ease-in-out infinite; }
+  @keyframes float {
+   0%,100%{ transform:none; }
+   33%{ transform:translateY(-1px) rotate(-2deg); }
+   66%{ transform:translateY(1px) rotate(2deg); }
+ }
+ body:hover span { animation:bounce .6s; }
+ @keyframes bounce {
+   0%,100%{ transform:translate(-10); }
+   25%{ transform:rotateX(2deg) translateY(2px) rotate(-3deg); }
+   50%{ transform:translateY(-2px) rotate(3deg) scale(1.1);  }
+ }
+ 
+ span:nth-child(4n) { color:hsl(50, 75%, 55%); text-shadow:1px 1px hsl(50, 75%, 45%), 2px 2px hsl(50, 45%, 45%), 3px 3px hsl(50, 45%, 45%), 4px 4px hsl(50, 75%, 45%); }
+ span:nth-child(4n-1) { color:hsl(135, 35%, 55%); text-shadow:1px 1px hsl(135, 35%, 45%), 2px 2px hsl(135, 35%, 45%), 3px 3px hsl(135, 35%, 45%), 4px 4px hsl(135, 35%, 45%); }
+ span:nth-child(4n-2) { color:hsl(155, 35%, 60%); text-shadow:1px 1px hsl(155, 25%, 50%), 2px 2px hsl(155, 25%, 50%), 3px 3px hsl(155, 25%, 50%), 4px 4px hsl(140, 25%, 50%); }
+ span:nth-child(4n-3) { color:hsl(30, 65%, 60%); text-shadow:1px 1px hsl(30, 45%, 50%), 2px 2px hsl(30, 45%, 50%), 3px 3px hsl(30, 45%, 50%), 4px 4px hsl(30, 45%, 50%); }
+ 
+ h1 span:nth-child(2){ animation-delay:.05s; }
+ h1 span:nth-child(3){ animation-delay:.1s; }
+ h1 span:nth-child(4){ animation-delay:.15s; }
+ h1 span:nth-child(5){ animation-delay:.2s; }
+ h1 span:nth-child(6){ animation-delay:.25s; }
+ h1 span:nth-child(7){ animation-delay:.3s; }
+ h1 span:nth-child(8){ animation-delay:.35s; }
+ h1 span:nth-child(9){ animation-delay:.4s; }
+ h1 span:nth-child(10){ animation-delay:.45s; }
+ h1 span:nth-child(11){ animation-delay:.5s; }
+ h1 span:nth-child(12){ animation-delay:.55s; }
+ h1 span:nth-child(13){ animation-delay:.6s; }
+ h1 span:nth-child(14){ animation-delay:.65s; }
+
+.color-3{
+  stroke:#05ffa1;
+   transform: translate3d(2px, 2px, 0);
+    stroke-width: 6px;
+}
+
+.color-1{
+  stroke:#ffffff;
+  stroke-width: 8px;
+}
+
+ .color-2{stroke:#01cdfe;
+        transform: translate3d(2px, 2px, 0);
+   stroke-width: 8px;
+   z-index:9999;
+}
+
+/* Main SVG */
+
+.letters {
+  left: 0.3%;
+  
+  position: relative;
+  stroke-miterlimit:3;
+  fill:none;
+  top: -120px;
+	display: block;
+	min-height: 400px;
+	max-height: 70vh;
+	margin: 0 auto;
+  position: absolute;
 
 }
+
+/* Letter path */
+
+.letter__layer {
+	fill: none;
+}
+
+
 
 .square {
   background: #fff;
@@ -88,6 +173,8 @@ body {
    100%{
     background: #00a6dd;
    } 
+
+
 }
 
 .gameInfo {

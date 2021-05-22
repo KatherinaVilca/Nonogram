@@ -23,6 +23,9 @@ class Game extends React.Component {
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
     this.pengine = new PengineClient(this.handlePengineCreate);
   }
+    
+    
+
 
   handlePengineCreate() {
     const queryS = 'init(PistasFilas, PistasColumns, Grilla)';
@@ -99,6 +102,7 @@ class Game extends React.Component {
       }
      } 
     
+     
 
   render() {
 
