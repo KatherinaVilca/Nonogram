@@ -43,21 +43,8 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 		;
 	replace(_Cell, ColN, Contenido, Row, NewRow)),
 
-	verificarFila(RowN,PistasFilas,NewGrilla,FilaSat),
-     verificarColumna(ColN,PistasColumnas,NewGrilla, ColSat).
-
-
-	% ---------- Tener en cuenta -----------
-
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-	% En el caso que se cumplan las pistas de fila y columna --> FilaSat 1, ColSat1.
-	% En el caso de cumplir pistas columna , PERO me paso de la cantidad de pistas de fila --> FilaSat 0, ColSat 1
-	% En el caso de cumplir pistas Fila , PERO me paso de la cantidad de pistas columna --> FilaSat 1 , ColSat 0
-	% En el caso de cumplir pistas columna, PERO me FALTA para completar pistas fila --> FilaSat 0, ColSat 1.
-	% En el caso de cumplir pistas fila, PERO ME FALTA para completar pistas columna --> FilaSat 1, ColSat 0.
-	% En el caso de que ME FALTE para completar pistas fila, y ME FALTE para completar pistas columna --> FilaSat 0 , ColSat 0.
-
+	verificarFila(RowN,PistasFilas,NewGrilla,FilaSat),							% Verifica si para la fila se cumple lo indicado en su respectiva lista fila de pistas, en caso de cumplirse FilaSat es 1, caso contrario 0.
+     verificarColumna(ColN,PistasColumnas,NewGrilla, ColSat).					% Verifica si para la columna se cumple lo indicado en su respectiva lista columna de pistas, en caso de cumplirse ColSat es 1, caso contrario 0.
 
 
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -67,10 +54,10 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 	invertir([],[]). % Caso base, lista vacia.
 
 	invertir([X|Xs],Res):- % X elemento de la lista, Xs resto de la lista
-		invertir(Xs,Aux), %aux lista , Caso recursivo
+		invertir(Xs,Aux), % aux lista , Caso recursivo
 		insertar_final(X,Aux,Res). % X el ultimo elem leido
 
-	insertar_final(A,[], [A]). %caso base, si la primeralista esta vacia, inserto el elem en la segunda.
+	insertar_final(A,[], [A]). % caso base, si la primera lista esta vacia, inserto el elem en la segunda.
 
 	insertar_final(A,[Elem|Listarestante],[Elem|Listaresultado]):-
 	insertar_final(A,Listarestante,Listaresultado).
@@ -80,7 +67,7 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-	% obtener_columna(+TableroGrilla,+Columna,+ListaDeElementosDeLaColumna)
+	% obtener_columna(+Grilla,+Columna,+ListaDeElementosDeLaColumna)
 
 		obtener_columna(Grilla, Col, ListaElementosColumna):-
 		obtener_columna_recursiva(Grilla,Col, ListaAux),
@@ -92,7 +79,7 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 
 			obtener_columna_recursiva([Fila|Grilla], Col, FilaC):-
 			obtener_columna_recursiva(Grilla,Col,FilaRecursiva),
-			nth0(Col,Fila,Aux), %ccambie obtener fila por nth
+			nth0(Col,Fila,Aux), % cambie obtener fila por nth
 			insertar_final(Aux,FilaRecursiva,FilaC).
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,70 +93,47 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+	%
+	% verificarPistasEnLista(+Pistas, +)
+	%
+
 	verificarPistasEnLista([],ListaFila):-not(member("#",ListaFila)).
 
 	verificarPistasEnLista([X|PistasS],[Y|ListaFilaS]):-Y == "#",
 		verificarPconsecutivos(X,[Y|ListaFilaS],Restante),
 		verificarPistasEnLista(PistasS,Restante).
 
-	verificarPistasEnLista(Pistas,[Y|ListaFilaS]):- Y \== "#", % Aca empieza
+	verificarPistasEnLista(Pistas,[Y|ListaFilaS]):- Y \== "#", % Aca empieza			   % Dada la lista de pistas, y el primer elemento de ListaFilaS (lista de fila)
 		verificarPistasEnLista(Pistas,ListaFilaS).
 
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	verificarPconsecutivos(0,[],[]).
+	%
+	% verificarPconsecutivos( +NumeroPista, +FilaARecorrer, -FilaRestante)
+	%
+
+	verificarPconsecutivos(0,[],[]).														   % Si 
 
 	verificarPconsecutivos(0,[X|Filarestante],Filarestante):- X \== "#".
 
-	verificarPconsecutivos(N,[X|Filarestante],Filarestante2):- X == "#", N > 0, Naux is N-1,
+	verificarPconsecutivos(N,[X|Filarestante],Filarestante2):- X == "#", N > 0, Naux is N-1,   %
 		verificarPconsecutivos(Naux,Filarestante,Filarestante2).
 
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	%verifica que la fila/columna tenga sus pistas satisfechas.
+	% verifica que la fila/columna tenga sus pistas satisfechas.
 	% 1==TRUE, 0==FALSE
-	%verificarFila(+Posicion,+ListaPistas,+GrillaRes,-N)
+	%
+	% verificarFila(+Posicion,+ListaPistas,+GrillaRes,-N)
 	%
 
 	verificarFila(IndiceFila,PistasFilas,GrillaRes, 1) :-
-	nth0(IndiceFila,PistasFilas,FiladePistas),
-	nth0(IndiceFila,GrillaRes,Filadegrilla),
-    verificarPistasEnLista(FiladePistas,Filadegrilla).
+	nth0(IndiceFila,PistasFilas,FiladePistas),				% Obtiene las pistas de la fila, de la lista de pistas de las filas
+	nth0(IndiceFila,GrillaRes,Filadegrilla),				% Obtiene la fila correspondiente a la posicion fila, de la grilla
+    verificarPistasEnLista(FiladePistas,Filadegrilla).		% Dada la lista de pistas de fila ( fila de pistas) y la fila de la grilla, verifica
 
-	verificarFila(_,_,_,0).
+	verificarFila(_,_,_,0).									% Si termino de recorrer ambas listas y no se verifica las pistas en lista, retorna 0.
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
-	%todasPistasSatisfechas(+ListaPistasAux,-Num) -> ver si conviene que ListaPistaAux sea una lista auxiliar la
-	%													 cual cada vez que se satisface una fila o columna,
-	%al final del put iría este metodo, que verifica filas y columnas
-	%todasPistasSatisfechas([], Num). % retornamos true
-	%todasPistasSatisfechas([Xs|X], Num):-
-	%				Xs==true,
-	%				todasPistasSatisfechas(X,Num).
-	% Si estan satisfechas, ganó el juego.
-
- 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	% ------------------- VERSION ORIGINIAL -----------------------
-
-	% verificarFila([IndiceFila|_Pos],PistasFilas,GrillaRes, 1) :- 
-    % nth0(IndiceFila,PistasFilas,FiladePistas),
-    % nth0(IndiceFila,GrillaRes,Filadegrilla),
-    % verificarPistasEnLista(FiladePistas,Filadegrilla).
-	% verificarFila(_,_,_,0).	
-
-	% verificarPistasEnLista([],FiladeGrilla):-not(member("#",FiladeGrilla)).
-
-	% verificarPistasEnLista([X|PistasRestantes],[Y|SubfiladeGrilla]):-Y == "#", 
-    % verificarPconsecutivos(X,[Y|SubfiladeGrilla],Restante),
-    % verificarPistasEnLista(PistasRestantes,Restante).
-
-	% verificarPistasEnLista(Pistas,[Y|SubfiladeGrilla]):- Y \== "#", % Aca empieza
-  	% verificarPistasEnLista(Pistas,SubfiladeGrilla).
-
-	% verificarPconsecutivos(0,[],[]).
-	% verificarPconsecutivos(0,[X|Filarestante],Filarestante):- X \== "#".
-	% verificarPconsecutivos(N,[X|Filarestante],Filarestante2):- X == "#", N > 0, Naux is N-1,
-    % verificarPconsecutivos(Naux,Filarestante,Filarestante2).

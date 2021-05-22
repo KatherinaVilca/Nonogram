@@ -27,7 +27,7 @@ body {
 }
 
 .filledSquare{
-  background-color:blue;
+  background-color:rgb(79, 196, 114);
 }
 
 .horizontal {
@@ -70,9 +70,15 @@ body {
 }
 
 .cluepintado{
-  background-color: rgb(136, 245, 136);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+  border-radius: 8px;
+  margin: 5px;
   animation-name: clueAnimation;
   animation-duration: 1s;
+  background: #57bee0;
 }
 @keyframes clueAnimation {
    0%{
@@ -80,8 +86,8 @@ body {
    }
   
    100%{
-     background:  rgb(136, 245, 136);
-   }
+    background: #00a6dd;
+   } 
 }
 
 .gameInfo {
