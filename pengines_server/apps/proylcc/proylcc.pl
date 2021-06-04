@@ -49,18 +49,6 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    %% PREDICADOS AUXILIARES.
-
-	invertir([],[]). % Caso base, lista vacia.
-
-	invertir([X|Xs],Res):- % X elemento de la lista, Xs resto de la lista
-		invertir(Xs,Aux), % aux lista , Caso recursivo
-		insertar_final(X,Aux,Res). % X el ultimo elem leido
-
-	insertar_final(A,[], [A]). % caso base, si la primera lista esta vacia, inserto el elem en la segunda.
-
-	insertar_final(A,[Elem|Listarestante],[Elem|Listaresultado]):-
-	insertar_final(A,Listarestante,Listaresultado).
 
 
 
@@ -69,18 +57,14 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 
 	% obtener_columna(+Grilla,+Columna,+ListaDeElementosDeLaColumna)
 
-		obtener_columna(Grilla, Col, ListaElementosColumna):-
-		obtener_columna_recursiva(Grilla,Col, ListaAux),
-		invertir(ListaAux,ListaElementosColumna).
+	obtener_columna([Fila], Col, FilaC):-	   %Caso base, unica fila.
+    	nth0(Col,Fila,AuxC),				   %FilaC es una lista con el elem que busco.
+		FilaC= [AuxC].
 
-			obtener_columna_recursiva([Fila], Col,FilaC):- %Caso base, unica fila.
-				nth0(Col,Fila,AuxC),				   %FilaC es una lista con el elem que busco.
-			FilaC= [AuxC].
-
-			obtener_columna_recursiva([Fila|Grilla], Col, FilaC):-
-			obtener_columna_recursiva(Grilla,Col,FilaRecursiva),
-			nth0(Col,Fila,Aux), % cambie obtener fila por nth
-			insertar_final(Aux,FilaRecursiva,FilaC).
+	obtener_columna([Fila|Grilla] , Col, FilaC):-
+    	obtener_columna(Grilla,Col,FilaRecursiva),
+    	nth0(Col,Fila,Aux),
+    	append([Aux],FilaRecursiva,FilaC).
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -103,7 +87,7 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 		verificarPconsecutivos(X,[Y|ListaFilaS],Restante),
 		verificarPistasEnLista(PistasS,Restante).
 
-	verificarPistasEnLista(Pistas,[Y|ListaFilaS]):- Y \== "#", % Aca empieza			   % Dada la lista de pistas, y el primer elemento de ListaFilaS (lista de fila)
+	verificarPistasEnLista(Pistas,[Y|ListaFilaS]):- Y \== "#", 				   % Dada la lista de pistas, y el primer elemento de ListaFilaS (lista de fila)
 		verificarPistasEnLista(Pistas,ListaFilaS).
 
 
@@ -113,7 +97,7 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 	% verificarPconsecutivos( +NumeroPista, +FilaARecorrer, -FilaRestante)
 	%
 
-	verificarPconsecutivos(0,[],[]).														   % Si 
+	verificarPconsecutivos(0,[],[]).														   
 
 	verificarPconsecutivos(0,[X|Filarestante],Filarestante):- X \== "#".
 
