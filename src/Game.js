@@ -2,8 +2,7 @@ import React from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
 import ModoOnClick from './ModoOnClick';
-import revelarCelda from './revelarCelda';
-import Switch from './Switch';
+
 
 class Game extends React.Component {
 
@@ -19,7 +18,6 @@ class Game extends React.Component {
       listaColumnaSatisfecha:[],
       clickActual:"#",
       waiting: false
-      
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
@@ -82,6 +80,34 @@ class Game extends React.Component {
     });
   }
 
+
+  cambiarClickActual(valor) {
+    this.setState({clickActual : valor})
+    if(valor === 'Solucion') {
+      this.setState({
+        mostrandoSolucion : true,
+        waiting : true
+      })
+      this.mostrarSolucion()
+    }
+    else {
+      this.setState({
+        mostrandoSolucion : false,
+        waiting : false,
+        estadoDelJuego: 'Juego en curso'
+      })
+    }
+  }
+
+    showSolution(){
+        //@TODO
+   }
+
+    selectPista(){
+      this.setState({
+        clickActual: "Pista"
+      })
+    }
     selectX(){
       this.setState({
         clickActual: "X"
@@ -96,7 +122,9 @@ class Game extends React.Component {
     terminoJuego(){
 
       for ( let i of this.state.listaFilaSatisfecha){
-        if( i!==1 ) return true;
+        if( i!==1 )
+          return true;
+        
       }
 
       for (let i of this.state.listaColumnaSatisfecha){
@@ -116,6 +144,7 @@ class Game extends React.Component {
   
     if (!this.terminoJuego()){
       statusText = "Termino el juego";
+    
     }
     return (
       <div className="game">
@@ -130,10 +159,19 @@ class Game extends React.Component {
         <div className="gameInfo">
           {statusText}
         </div>
-        <ModoOnClick
-          selectX={()=>this.selectX()}
-          selectPaint= {()=>this.selectPaint()}
-          />
+        <div className = "BotonesSol">
+          <ModoOnClick
+            selectX={()=>this.selectX()}
+            selectPaint= {()=>this.selectPaint()}
+            />
+            <button className="botonpista" onClick = {() => this.selectPista()}>
+              {"pista"}
+            </button>
+            
+            <button className="switch" onClick = {() => this.showSolution()}>
+              {"Mostrar solución"}
+            </button>
+        </div>
       </div>
     );
   }

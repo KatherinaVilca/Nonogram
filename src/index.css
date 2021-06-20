@@ -154,6 +154,11 @@ h1 {
   flex-direction: row;
 }
 
+.BotonesSol{
+  display: flex;
+  flex-direction: column;
+}
+
 .cluepintado{
   display: flex;
   justify-content: center;
