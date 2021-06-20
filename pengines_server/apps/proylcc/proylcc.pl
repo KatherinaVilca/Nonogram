@@ -158,7 +158,7 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 	interseccionR(JugadasPosibles,AuxLongitud, Aux, Salida):-
 	obtener_columna(JugadasPosibles, AuxLongitud, ListaElementos),
 	todosIguales("X", ListaElementos),
-	append(["X"], Aux, ListaValida), %Si se verifico la listaelementos, agrego # a mi lista valida.
+	append(["X"], Aux, ListaValida), %Si se verifico la listaelementos, agrego
 	AuxL is AuxLongitud - 1,
 		interseccionR(JugadasPosibles,AuxL, ListaValida, Salida).
 
@@ -349,3 +349,7 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 		pasadaFinalAux(Grilla,PistasFila, ListaAux2, Solucion).
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	obtenerSolucionCelda(Grilla, FilaN, ColumnaN, Elemento):-
+    nth0(FilaN, Grilla, Fila),
+    nth0(ColumnaN, Fila, Elemento).
