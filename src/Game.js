@@ -2,6 +2,8 @@ import React from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
 import ModoOnClick from './ModoOnClick';
+import revelarCelda from './revelarCelda';
+import Switch from './Switch';
 
 class Game extends React.Component {
 
