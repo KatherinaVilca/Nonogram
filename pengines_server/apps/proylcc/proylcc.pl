@@ -183,11 +183,12 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	solucionRec([Fila|Grilla] ,[PistaFila|PistasFilas], Longitud, Aux, Solucion):-
-		findall(Fila, ( length(Fila, Longitud), controlar(PistaFila, Fila)),Resultado), % Creo que aca esta el error. Ver Trace
+	solucionRec([Fila|Grilla] ,[Pista|ListaPistas], Longitud, Aux, Solucion):-
+		findall(Fila, ( length(Fila, Longitud), controlar(Pista, Fila)),Resultado),
 		interseccion(Resultado,Longitud, Res),
 		append(Aux,[Res],ListaSolucionFila),
-		solucionRec(Grilla, PistasFilas, Longitud,ListaSolucionFila,Solucion).
+		solucionRec(Grilla, ListaPistas, Longitud,ListaSolucionFila,Solucion).
+
 
 	solucionRec( [], [], _Longitud, Aux, Aux).
 
@@ -298,6 +299,8 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 		solucionFilas(GrillaOriginal, LongFilas, PistasFilas,SolAux),
 		solucionColumna(SolAux, LongColumnas, PistasColumnas,SolucionAux).
 
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
 	allAtomico([]).
 	allAtomico([Elem|Lista]):-
 		forall(member(E,Elem), (E == "#"; E == "X")),
@@ -349,7 +352,3 @@ put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, Fil
 		pasadaFinalAux(Grilla,PistasFila, ListaAux2, Solucion).
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-	obtenerSolucionCelda(Grilla, FilaN, ColumnaN, Elemento):-
-    nth0(FilaN, Grilla, Fila),
-    nth0(ColumnaN, Fila, Elemento).
