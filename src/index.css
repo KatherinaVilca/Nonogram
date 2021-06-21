@@ -147,7 +147,7 @@ h1 {
   margin: 2px
 }
 
-.colClues .clue {
+.colClues .clue, .colClues .cluepintado {
   flex-direction: column;
 
 }
