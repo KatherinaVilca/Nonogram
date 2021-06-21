@@ -69,28 +69,12 @@ class Game extends React.Component {
 
     const rowCluesProlog = JSON.stringify(this.state.rowClues)
     const colCluesProlog = JSON.stringify(this.state.colClues)
-    // if click es pista
-    // recuperarPOsicionGrillaResuelta(i,j,grilla, loqueva)
-    // clickActual : loqueva
-    // declarar variable y a esa variable asignarle lo que tiene clickactual y se lo paso al put (reemplazar clickActual)
-    // const  
+
     
     let Elem = this.state.clickActual;
 
        console.log(this.state.clickActual);
        if (this.state.clickActual == 'Pista'){
-        /*const squaresS = JSON.stringify(this.state.gridSolucion).replaceAll('"_"', "_");
-        const respuesta = `obtenerSolucionCelda(${squaresS},`+i+`,`+j+`,Res)`;
-        console.log(respuesta);
-        this.pengine.query(respuesta, (success,response) =>{
-          if (success){
-            this.setState({
-              Elem: response['Res']
-            })
-          }
-        });
-        console.log('elem'+ this.state.Elem);*/
-        console.log('hola');
         this.setState({
           Elem: this.state.gridSolucion[i][j]
         })
