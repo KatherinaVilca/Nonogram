@@ -73,7 +73,6 @@ class Game extends React.Component {
     
     let Elem = this.state.clickActual;
 
-       console.log(this.state.clickActual);
        if (this.state.clickActual == 'Pista'){
         this.setState({
           Elem: this.state.gridSolucion[i][j]
